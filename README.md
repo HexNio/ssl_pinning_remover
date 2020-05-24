@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="600" height="220" src="https://github.com/HexNio/ssl_pinning_remover/blob/master/imgs/SSL_pinning_remover_logo.png?raw=true">
+</p>
+
 [![PyPI version shields.io](https://img.shields.io/pypi/v/booking-scraper.svg)](https://pypi.org/project/booking-scraper/)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 
