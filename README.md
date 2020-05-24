@@ -23,7 +23,7 @@ i found different types of project the on Github but they aren't completely auto
 
 I read a lot of guides most of those requires to have a rooted device so i tried to create something to sniff the encrypted traffic unrooted devices in order to help all security researchers, this software is **UNSTABLE** for now a lot of "unlocked" apps will not work with this mod.
 
-## How it work?
+## How it works?
 ssl_pinning_remover has all the following phases:
 1. Unpack the .apk app with apktool
 2. Check if the *AndroidManifest.xml* has the correct attributes and if *network_security_config.xml* exists with the correct tags
@@ -64,6 +64,9 @@ Elaborate without uploading .apk:
 Elaborate and upload .apk:
 
 `ssl_pinning_remover -i test.apk -v -u`
+
+The output path is the path where you launch the script.
+The modified apk will have the same name of the original apk but before the extension will be added ".unlocked.apk"
 
 ## ToDo List
 
