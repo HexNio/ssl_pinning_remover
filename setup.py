@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="ssl-pinning-remover-HEXNIO-TEST",
-    version="1.1.2",
+    name="ssl-pinning-remover",
+    version="1.0.0",
     author="HexNio",
     author_email="",
     description="An SSL Pinning Remover for Android Apps",
