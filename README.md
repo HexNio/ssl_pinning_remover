@@ -21,7 +21,7 @@ For the second question is: Yes... but.
 
 i found different types of project the on Github but they aren't completely automated in all those phases so here we are.
 
-I read a lot of guides most of those requires to have a rooted device so i tried to create something to sniff the encrypted traffic unrooted devices in order to help all security researchers, this software is **UNSTABLE** for now a lot of "unlocked" apps will not work with this mod.
+I read a lot of guides most of those requires to have a rooted device so i tried to create something to sniff the encrypted traffic unrooted devices in order to help all security researchers, this software is **UNSTABLE** for now, a lot of "unlocked" apps maybe will not work with this mod.
 
 ## How it works?
 ssl_pinning_remover has all the following phases:
