@@ -70,6 +70,8 @@ The modified apk will have the same name of the original apk but before the exte
 
 ## ToDo List
 
+- [ ] frida-gadget implemetation
+
 - [ ] Continue implementing studying difference configuration cases
 
 - [ ] Make the software working for most of the applications in the play store
