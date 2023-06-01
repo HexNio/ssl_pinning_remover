@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ssl-pinning-remover",
-    version="1.0.0",
+    version="1.0.1",
     author="HexNio",
     author_email="",
     description="An SSL Pinning Remover for Android Apps",
