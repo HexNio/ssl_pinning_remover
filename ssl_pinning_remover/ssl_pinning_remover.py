@@ -6,7 +6,7 @@ from .core import core
 
 
 def unlock_apk(input_path, is_uploadable):
-    
+
     if os.path.exists(input_path):
 
         #unpackapk
@@ -14,7 +14,7 @@ def unlock_apk(input_path, is_uploadable):
 
         #modify manifest
         core.modify_manifest(output_folder + '/' + core.ANDROIDMANIFEST)
-        
+
         #checkif netsecurity exist and modify it
         core.modify_network_config(output_folder)
 
@@ -35,6 +35,8 @@ def unlock_apk(input_path, is_uploadable):
 
     else:
         print('[-] input path not found...')
+        sys.exit(1)
+
 
 
 

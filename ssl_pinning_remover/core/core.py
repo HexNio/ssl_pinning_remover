@@ -33,7 +33,7 @@ def unpack_jar(input_path):
 
     if is_verbose:
             print('[+] Cleaning...')
-    
+
     output_dir = input_path.rsplit('/',1)[1].rsplit('.', 1)[0]
 
     shutil.rmtree(TEMP_PATH, ignore_errors=True)
@@ -44,19 +44,21 @@ def unpack_jar(input_path):
 
         try:
             subprocess.run(['apktool',
-                            '-o', TEMP_PATH + output_dir, 
+                            '-o', TEMP_PATH + output_dir,
                             'd', '-f', input_path],
                            stdout=subprocess.DEVNULL,
                            stderr=subprocess.DEVNULL).check_returncode()
-            
+
         except subprocess.CalledProcessError:
             print('[-] Unable to decode this APK')
+            sys.exit(1)
 
 
         if is_verbose:
             print('[+] Succesfully decompiled APK')
     else:
         print("[-] Invalid path")
+        sys.exit(1)
 
     return TEMP_PATH + output_dir
 
@@ -124,14 +126,14 @@ def modify_network_config(output_path):
                 if domains.select_one("domain") is not None:
 
                     for domain in domains.findAll("domain"):
-                        
+
                         if domain['includeSubdomains'] == 'false' or domain['includeSubdomains'] is None:
                             domain['includeSubdomains'] = 'true'
 
                 if soup.select_one("trustkit-config") is not None:
 
                     if soup.select_one("trustkit-config").get('enforcePinning') == None:
-                        
+
                         domains.find('trustkit-config')['enforcePinning'] = 'false'
                     else:
                         domains.find('trustkit-config')['enforcePinning'] = 'false'
@@ -178,18 +180,19 @@ def rebuild_apk(output_folder):
                         stderr=subprocess.DEVNULL).check_returncode()
     except subprocess.CalledProcessError:
         print('[-] Unable to rebuild the APK')
+        sys.exit(1)
 
 
 def signing_apk(output_folder):
 
     apk_name = output_folder.split("/")[-1] + '.new.apk'
-    
+
     if os.path.isfile(TEMP_PATH + apk_name):
         if is_verbose:
             print('[+] Signing the APK...')
 
         try:
-            with subprocess.Popen(['jarsigner', '-sigalg', 'SHA1withRSA', 
+            with subprocess.Popen(['jarsigner', '-sigalg', 'SHA1withRSA',
                             '-digestalg', 'SHA1', '-keystore', TOOLS_PATH + 'new-release-key.keystore',
                             TEMP_PATH + apk_name, 'new_name'],
                             stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) as p:
@@ -198,8 +201,10 @@ def signing_apk(output_folder):
 
         except subprocess.CalledProcessError:
             print('[-] Unable to sign the APK')
+            sys.exit(1)
     else:
-       print('[-] No APK to sign') 
+       print('[-] No APK to sign')
+       sys.exit(1)
 
 
 def align_apk(output_folder):
@@ -211,14 +216,16 @@ def align_apk(output_folder):
             print('[+] Aligning the APK...')
 
         try:
-            subprocess.run([TOOLS_PATH + 'zipalign', '-v', '4', 
+            subprocess.run([TOOLS_PATH + 'zipalign', '-v', '4',
                             TEMP_PATH + apk_name, output_folder.split("/")[-1] + '.unlocked.apk'],
                             stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL).check_returncode()
         except subprocess.CalledProcessError:
             print('[-] Unable to align the APK')
+            sys.exit(1)
     else:
         print('[-] No APK to align')
+        sys.exit(1)
 
 def install_apk(output_folder):
 
@@ -234,3 +241,4 @@ def install_apk(output_folder):
                             stderr=subprocess.DEVNULL).check_returncode()
         except subprocess.CalledProcessError:
             print('[-] Unable to upload and install the APK')
+            sys.exit(1)
