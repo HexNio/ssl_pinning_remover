@@ -45,12 +45,13 @@ def unpack_jar(input_path):
         try:
             subprocess.run(['apktool',
                             '-o', TEMP_PATH + output_dir,
-                            'd', '-f', input_path],
-                           stdout=subprocess.DEVNULL,
-                           stderr=subprocess.DEVNULL).check_returncode()
+                            'd', '-f', input_path], capture_output=True, text=True).check_returncode()
 
-        except subprocess.CalledProcessError:
+        except subprocess.CalledProcessError as e:
             print('[-] Unable to decode this APK')
+            print(e)
+            print(e.stdout)
+            print(e.stderr)
             sys.exit(1)
 
 
@@ -179,10 +180,12 @@ def rebuild_apk(output_folder):
 
     try:
         subprocess.run(['apktool', 'b', output_folder, '-o', TEMP_PATH + apk_name],
-                        stdout=subprocess.DEVNULL,
-                        stderr=subprocess.DEVNULL).check_returncode()
-    except subprocess.CalledProcessError:
+                        capture_output=True, text=True).check_returncode()
+    except subprocess.CalledProcessError as e:
         print('[-] Unable to rebuild the APK')
+        print(e)
+        print(e.stdout)
+        print(e.stderr)
         sys.exit(1)
 
 
@@ -198,12 +201,15 @@ def signing_apk(output_folder):
             with subprocess.Popen(['jarsigner', '-sigalg', 'SHA1withRSA',
                             '-digestalg', 'SHA1', '-keystore', TOOLS_PATH + 'new-release-key.keystore',
                             TEMP_PATH + apk_name, 'new_name'],
-                            stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) as p:
+                            stdin=subprocess.PIPE) as p:
                 p.stdin.write(bytes("123456789"+'\r\n','utf-8'))
                 p.stdin.close()
 
-        except subprocess.CalledProcessError:
+        except subprocess.CalledProcessError as e:
             print('[-] Unable to sign the APK')
+            print(e)
+            print(e.stdout)
+            print(e.stderr)
             sys.exit(1)
     else:
        print('[-] No APK to sign')
@@ -221,10 +227,12 @@ def align_apk(output_folder):
         try:
             subprocess.run([TOOLS_PATH + 'zipalign', '-v', '4',
                             TEMP_PATH + apk_name, output_folder.split("/")[-1] + '.unlocked.apk'],
-                            stdout=subprocess.DEVNULL,
-                            stderr=subprocess.DEVNULL).check_returncode()
-        except subprocess.CalledProcessError:
+                            capture_output=True, text=True).check_returncode()
+        except subprocess.CalledProcessError as e:
             print('[-] Unable to align the APK')
+            print(e)
+            print(e.stdout)
+            print(e.stderr)
             sys.exit(1)
     else:
         print('[-] No APK to align')
@@ -240,8 +248,10 @@ def install_apk(output_folder):
 
         try:
             subprocess.run(['adb', 'install', apk_name],
-                            stdout=subprocess.DEVNULL,
-                            stderr=subprocess.DEVNULL).check_returncode()
-        except subprocess.CalledProcessError:
+                            capture_output=True, text=True).check_returncode()
+        except subprocess.CalledProcessError as e:
             print('[-] Unable to upload and install the APK')
+            print(e)
+            print(e.stdout)
+            print(e.stderr)
             sys.exit(1)
