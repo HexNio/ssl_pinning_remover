@@ -93,6 +93,9 @@ def modify_manifest(output_folder):
     else:
         soup.find('application')['android:debuggable'] = 'true'
 
+    # See https://github.com/iBotPeaches/Apktool/issues/2663
+    soup.find('provider')['android:name'] = 'xxx'
+
     fd = open(output_folder, 'w')
     fd.write(str(soup))
     fd.close()
