@@ -1,6 +1,7 @@
 import argparse
 from bs4 import BeautifulSoup
 import os
+import sys
 
 from .core import core
 
